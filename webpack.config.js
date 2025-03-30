@@ -7,8 +7,8 @@ module.exports = {
     entry: {
         main: [
             './src/index.js',
-            './src/scripts/cards.js',
-        ]
+            './src/components/cards.js',
+        ],
     },
     output: {
         path:  path.resolve(__dirname, 'dist'),
