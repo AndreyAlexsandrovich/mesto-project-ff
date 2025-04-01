@@ -1,11 +1,9 @@
 import avatar from "../images/avatar.jpg";
 import { initialCards } from "./components/cards.js";
 import {
-  addCards,
   createCard,
-  deleteCard,
   handleLike,
-  popupImage,
+  handleDelete,
 } from "./components/card.js";
 import {
   openPopup,
@@ -19,7 +17,9 @@ import "./index.css";
 const popupNewPlace = document.querySelector(".popup_type_new-card");
 const profileForm = document.querySelector(".popup_type_edit");
 
-const formElement = popupNewPlace.querySelector(".popup__form");
+const popupPlacesForm = popupNewPlace.querySelector(".popup__form");
+const popupEditProfileForm = profileForm.querySelector(".popup__form");
+
 const addButton = document.querySelector(".profile__add-button");
 const closeButtonPlace = popupNewPlace.querySelector(".popup__close");
 const closeButtonProfile = profileForm.querySelector(".popup__close");
@@ -39,21 +39,52 @@ const jobInput = document.querySelector('input[name="description"]');
 const profileTitle = document.querySelector(".profile__title");
 const profileDescription = document.querySelector(".profile__description");
 
+const inputCardName = popupPlacesForm.querySelector(
+  ".popup__input_type_card-name"
+);
+const inputUrlImage = popupPlacesForm.querySelector(".popup__input_type_url");
+
 profileImage.style.backgroundImage = `url(${avatar})`;
+
+// добавление карточки
+function addCards(evt) {
+  evt.preventDefault();
+
+
+  const inputCardNameElement = inputCardName.value;
+  const inputUrlImageElement = inputUrlImage.value;
+
+  if (!inputCardNameElement || !inputUrlImageElement) return;
+
+  const newCards = createCard(
+    { name: inputCardNameElement, link: inputUrlImageElement },
+    handleDelete,
+    handleLike,
+    handleCardImageClick
+  );
+
+  list.prepend(newCards);
+  popupPlacesForm.reset();
+  closePopup(popupNewPlace);
+}
 
 // @todo: Вывести карточки на страницу
 function showCards() {
   initialCards.forEach((cardData) => {
-    const cardElement = createCard(cardData, deleteCard, handleLike);
+    const cardElement = createCard(cardData, handleDelete, handleLike, handleCardImageClick);
     list.append(cardElement);
   });
 }
 
-// функции для редактирования профиля
-nameInput.value = profileTitle.textContent;
-jobInput.value = profileDescription.textContent;
+showCards();
 
-function handleFormSubmit(evt) {
+// функции для редактирования профиля
+function updateProfileForm() {
+  jobInput.value = profileDescription.textContent;
+  nameInput.value = profileTitle.textContent;
+}
+
+function handleFormSubmitProfile(evt) {
   evt.preventDefault();
 
   const valueName = nameInput.value;
@@ -64,20 +95,21 @@ function handleFormSubmit(evt) {
 }
 
 // функция для открытия попапа изображения карточек
-document.addEventListener("DOMContentLoaded", () => {
-  const popupImageFn = popupImage(
-    popupListImage,
-    popupImageElement,
-    popupTextImage,
-    popupTypeImage,
-  );
-});
-setupPopupCloseListener(popupTypeImage, popuCloseImage);
 
-// функция удаление новый карточек
-function handleDelete(cardElement) {
-  cardElement.remove();
+
+// функция открытия попапа карточки
+function handleCardImageClick(imageElement) {
+  const imageSrc = imageElement.src;
+  const imageAlt = imageElement.alt;
+  const imageTitle = imageElement.closest(".card").querySelector(".card__title").textContent;
+
+  popupImageElement.alt = imageAlt;
+  popupImageElement.src = imageSrc;
+  popupTextImage.textContent = imageTitle;
+  openPopup(popupTypeImage);
 }
+
+setupPopupCloseListener(popupTypeImage, popuCloseImage);
 
 // вызов функции отменяяющий стандартные действия  браузера (попапа профиля и добавления места)
 setupFormListener();
@@ -88,6 +120,7 @@ setupPopupCloseListener(popupNewPlace, closeButtonPlace);
 // обработчики открытия разных попапов(профиль и место)
 
 buttonEdit.addEventListener("click", () => {
+  updateProfileForm();
   openPopup(profileForm);
 });
 
@@ -95,16 +128,15 @@ addButton.addEventListener("click", () => {
   openPopup(popupNewPlace);
 });
 
-showCards();
-
 function setupFormListener() {
-  popupNewPlace.addEventListener("submit", (evt) => {
+  popupPlacesForm.addEventListener("submit", (evt) => {
     addCards(evt);
   });
 
-  profileForm.addEventListener("submit", (evt) => {
-    handleFormSubmit(evt);
+  popupEditProfileForm.addEventListener("submit", (evt) => {
+    handleFormSubmitProfile(evt);
+    closePopup(profileForm);
   });
 }
 
-export { popupNewPlace, formElement, list, handleDelete };
+export { popupPlacesForm, popupNewPlace, list, handleCardImageClick };
