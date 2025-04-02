@@ -1,8 +1,5 @@
-import { handleCardImageClick } from "../index.js";
-import { openPopup } from "./modal.js";
-
 // создание карточек
-function createCard(cardData, handleDelete, handleLike) {
+function createCard(cardData, handleDelete, handleLike, handleCardImageClick) {
   const template = document.querySelector("#card-template").content;
   const itemCopy = template.querySelector(".places__item").cloneNode(true);
   itemCopy.querySelector(".card__title").textContent = cardData.name;

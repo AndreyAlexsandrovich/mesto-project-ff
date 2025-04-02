@@ -139,4 +139,4 @@ function setupFormListener() {
   });
 }
 
-export { popupPlacesForm, popupNewPlace, list, handleCardImageClick };
+export { popupPlacesForm, popupNewPlace, list };
