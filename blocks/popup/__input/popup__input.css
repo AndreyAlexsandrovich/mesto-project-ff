@@ -20,3 +20,17 @@
     line-height: 15px;
   }
 }
+
+.form__input_type_error { 
+  border-bottom: 1px solid red;
+}
+
+.input-name-error, .input-description-error{ 
+  display: none;
+}
+
+.popup__error_visible { 
+  display: block;
+  color: red;
+  margin-top: 5px;
+}

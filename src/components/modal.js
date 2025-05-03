@@ -1,3 +1,5 @@
+import { clearValidation } from "./validation.js";
+
 let currentPopup = null;
 // Функция для открытия попапа
 function openPopup(popup) {
@@ -11,6 +13,7 @@ function openPopup(popup) {
   }, 0);
   currentPopup = popup;
   document.addEventListener("keydown", closeEscPopup);
+  
 }
 
 // Функция для закрытия попапа
