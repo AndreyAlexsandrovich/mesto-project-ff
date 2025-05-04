@@ -4,11 +4,11 @@ import { likeUser, unlikeUser, deleteCard } from "../api.js";
 function createCard(cardData, handleCardImageClick, userId) {
   const template = document.querySelector("#card-template").content;
   const itemCopy = template.querySelector(".places__item").cloneNode(true);
+  const imageElement = itemCopy.querySelector(".card__image");
   itemCopy.querySelector(".card__title").textContent = cardData.name;
   itemCopy.querySelector(".card__image").src = cardData.link;
   itemCopy.querySelector(".card__image").alt = cardData.name;
   const deleteButton = itemCopy.querySelector(".card__delete-button");
-
   const likeCount = itemCopy.querySelector(".like-count");
   const likeButton = itemCopy.querySelector(".card__like-button");
 
@@ -41,7 +41,6 @@ function createCard(cardData, handleCardImageClick, userId) {
     });
   });
 
-  const imageElement = itemCopy.querySelector(".card__image");
   imageElement.addEventListener("click", () => {
     handleCardImageClick(imageElement);
   });
@@ -51,7 +50,6 @@ function createCard(cardData, handleCardImageClick, userId) {
 
 // функция удаление новыx карточек
 function handleDelete(cardElement) {
-  likeUser(likeCount);
   cardElement.remove();
 }
 

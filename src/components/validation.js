@@ -69,7 +69,6 @@ export function enableValidation(validationConfig) {
 function hasInvalidInput(inputList) {
   return inputList.some((inputElement) => {
     const regEx = /^[а-яА-Яa-zA-ZЁёәіңғүұқөһӘІҢҒҮҰҚӨҺ\-\s]*$/;
-
     if (
       (inputElement.name === "name" || inputElement.name === "place-name" || inputElement.name === "description") &&
       inputElement.value !== ""
@@ -98,10 +97,11 @@ function toggleButtonState(inputList, buttonElement, validationConfig) {
     const formInputs = Array.from(
       formElement.querySelectorAll(validationConfig.inputSelector)
     );
+    console.log(formInputs)
     const buttonElement = formElement.querySelector(validationConfig.submitButtonSelector);
     formInputs.forEach((input) => {
-      input.value = "";
+      input.value = '';
+      hideInputError(formElement, input, validationConfig)
     });
-    buttonElement.disabled = true;
-    buttonElement.classList.add(validationConfig.inactiveButtonClass);
+    toggleButtonState(formInputs, buttonElement, validationConfig);
   }

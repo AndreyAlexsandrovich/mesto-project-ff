@@ -17,10 +17,6 @@ function loadUserData() {
       if (res.ok) return res.json();
       return Promise.reject(`Ошибка: ${res.status}`);
     })
-    .catch((err) => {
-      console.log(err);
-      return Promise.reject(err);
-    });
 }
 
 function loadCards() {
@@ -34,9 +30,6 @@ function loadCards() {
       if (res.ok) return res.json();
       return Promise.reject(`Ошибка: ${res.status}`);
     })
-    .catch((err) => {
-      console.log(`Ошибка: ${err.message}`);
-    });
 }
 
 function updateLoadUser(name, about) {
