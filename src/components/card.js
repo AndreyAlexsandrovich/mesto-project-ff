@@ -6,8 +6,8 @@ function createCard(cardData, handleCardImageClick, userId) {
   const itemCopy = template.querySelector(".places__item").cloneNode(true);
   const imageElement = itemCopy.querySelector(".card__image");
   itemCopy.querySelector(".card__title").textContent = cardData.name;
-  itemCopy.querySelector(".card__image").src = cardData.link;
-  itemCopy.querySelector(".card__image").alt = cardData.name;
+  imageElement.alt = cardData.name;
+  imageElement.src = cardData.link;
   const deleteButton = itemCopy.querySelector(".card__delete-button");
   const likeCount = itemCopy.querySelector(".like-count");
   const likeButton = itemCopy.querySelector(".card__like-button");
@@ -34,11 +34,15 @@ function createCard(cardData, handleCardImageClick, userId) {
   likeButton.addEventListener("click", () => {
     const liked = likeButton.classList.contains("card__like-button_is-active");
     const apiMethod = liked ? unlikeUser : likeUser;
-    apiMethod(cardData._id).then((updatedCard) => {
-      likeCount.textContent = updatedCard.likes.length;
-      likeButton.classList.toggle("card__like-button_is-active");
-      cardData.likes = updatedCard.likes;
-    });
+    apiMethod(cardData._id)
+      .then((updatedCard) => {
+        likeCount.textContent = updatedCard.likes.length;
+        likeButton.classList.toggle("card__like-button_is-active");
+        cardData.likes = updatedCard.likes;
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`);
+      });
   });
 
   imageElement.addEventListener("click", () => {

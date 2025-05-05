@@ -83,6 +83,7 @@ function renderLoading(button, isLoading, loadingText = "Сохранение...
     button.disabled = true;
   } else {
     button.textContent = button.dataset.defaultText;
+    button.disabled = true;
   }
 }
 

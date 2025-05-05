@@ -100,7 +100,6 @@ function toggleButtonState(inputList, buttonElement, validationConfig) {
     console.log(formInputs)
     const buttonElement = formElement.querySelector(validationConfig.submitButtonSelector);
     formInputs.forEach((input) => {
-      input.value = '';
       hideInputError(formElement, input, validationConfig)
     });
     toggleButtonState(formInputs, buttonElement, validationConfig);
