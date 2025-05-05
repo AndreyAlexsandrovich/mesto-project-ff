@@ -83,7 +83,7 @@ function renderLoading(button, isLoading, loadingText = "Сохранение...
     button.disabled = true;
   } else {
     button.textContent = button.dataset.defaultText;
-    button.disabled = true;
+    button.disabled = false;
   }
 }
 
@@ -100,16 +100,15 @@ function handleAvatarSubmit(evt) {
   updateAvatar(avatarUrl)
     .then((userData) => {
       profileImage.style.backgroundImage = `url(${userData.avatar})`;
-      closePopup(popupProfileAvatar);
       popupAvatar.reset();
-      clearValidation(popupAvatar, validationConfig);
+      closePopup(popupProfileAvatar);
     })
     .catch((err) => {
       console.error(`Ошибка: ${err}`);
     })
-    .finally(() => { 
+    .finally(() => {
       renderLoading(saveButtonAvatar, false);
-    })
+    });
 }
 
 popupAvatar.addEventListener("submit", handleAvatarSubmit);
@@ -130,15 +129,14 @@ function addCards(evt) {
       const cardElement = createCard(newCardData, handleCardImageClick, userId);
       list.prepend(cardElement);
       popupPlacesForm.reset();
-      clearValidation(popupPlacesForm, validationConfig);
       closePopup(popupNewPlace);
     })
     .catch((err) => {
       console.error("Ошибка при добавлении карточки:", err);
     })
-    .finally(() => { 
+    .finally(() => {
       renderLoading(saveButtonPlace, false, "Создать");
-    })
+    });
 }
 
 // функции для редактирования профиля
@@ -164,9 +162,9 @@ function handleFormSubmitProfile(evt) {
     .catch((err) => {
       console.error(`Ошибка: ${err}`);
     })
-    .finally(() => { 
+    .finally(() => {
       renderLoading(saveButtonProfile, false);
-    })
+    });
 }
 
 // функция для открытия попапа изображения карточек
@@ -197,6 +195,7 @@ setupPopupCloseListener(popupProfileAvatar, closeButtonAvatar);
 // обработчики открытия разных попапов(профиль и место)
 
 avatar.addEventListener("click", () => {
+  clearValidation(popupProfileAvatar, validationConfig);
   openPopup(popupProfileAvatar);
 });
 
@@ -210,6 +209,7 @@ buttonEdit.addEventListener("click", () => {
 });
 
 addButton.addEventListener("click", () => {
+  clearValidation(popupNewPlace, validationConfig);
   openPopup(popupNewPlace);
 });
 

@@ -69,6 +69,7 @@ export function enableValidation(validationConfig) {
 function hasInvalidInput(inputList) {
   return inputList.some((inputElement) => {
     const regEx = /^[а-яА-Яa-zA-ZЁёәіңғүұқөһӘІҢҒҮҰҚӨҺ\-\s]*$/;
+
     if (
       (inputElement.name === "name" || inputElement.name === "place-name" || inputElement.name === "description") &&
       inputElement.value !== ""
@@ -77,7 +78,6 @@ function hasInvalidInput(inputList) {
         return true;
       }
     }
-
     return !inputElement.validity.valid;
   });
 }
